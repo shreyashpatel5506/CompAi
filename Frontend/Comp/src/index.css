@@ -46,20 +46,13 @@
   --noise: 0;
 }
 
-body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
-}
+
 
 .text-gradient-accent {
   color: transparent;
   background-image: linear-gradient(90deg,
       #8C5BF6,
-      #492b88
-    );
+      #492b88);
   -webkit-background-clip: text;
   background-clip: text;
 }
