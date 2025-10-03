@@ -21,11 +21,12 @@ const Home = () => {
     const [isDownloaded, setIsDownloaded] = useState(false);
     const [isPreviewOpen, setIsPreviewOpen] = useState(false);
 
-    // --- UPDATED: Added Flutter & Dart ---
+    // --- UPDATED: Added React Native ---
     const options = [
         { value: 'HTML & CSS', label: 'HTML & CSS', extension: 'html' },
         { value: 'JSX with TailwindCSS', label: 'JSX with TailwindCSS', extension: 'jsx' },
         { value: 'HTML & TailwindCSS', label: 'HTML & TailwindCSS', extension: 'html' },
+        { value: 'React Native', label: 'React Native', extension: 'jsx' },
         { value: 'Flutter & Dart', label: 'Flutter & Dart', extension: 'dart' },
         { value: 'Python & Django', label: 'Python & Django', extension: 'py' },
         { value: 'Python & Flask', label: 'Python & Flask', extension: 'py' },
@@ -45,18 +46,20 @@ const Home = () => {
         try {
             const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash-lite-preview-09-2025" });
 
-            // --- UPDATED: Refined prompt for better component generation ---
+            // --- UPDATED: Added a rule for React Native ---
             const prompt = `
                 You are an expert web and mobile developer. Your task is to generate a single file of production-ready code for a component.
                 Framework/Language: ${frameWork.value}
                 Component Description: ${description}
 
                 **IMPORTANT RULES:**
-                1. Output ONLY the raw code. No comments, explanations, markdown, or any text outside the code itself.
-                2. For "JSX with TailwindCSS", the component MUST be a standard React functional component named exactly "Component". Example: \`function Component() { return <div>...</div>; }\` It must not be an arrow function or have \`export default\`.
-                3. For "Flutter & Dart", create a single, complete Stateless or Stateful widget. Include all necessary imports from \`material.dart\`. The main widget should be named "MyComponent".
-                4. The code must be fully functional and ready to be copy-pasted.
-                5. For HTML & TailwindCSS, include the Tailwind CDN script. For HTML & CSS, embed the CSS in a <style> tag.
+                1.  Output ONLY the raw code. No comments, explanations, markdown, or any text outside the code itself.
+                2.  For "JSX with TailwindCSS", the component MUST be a standard React functional component named exactly "Component". Example: \`function Component() { return <div>...</div>; }\` It must not be an arrow function or have \`export default\`.
+                3.  For "Flutter & Dart", create a single, complete Stateless or Stateful widget. Include all necessary imports from \`material.dart\`. The main widget should be named "MyComponent".
+                4.  For "React Native", create a single functional component named "MyComponent". Import necessary components from 'react-native' and use \`StyleSheet.create\` for styling. Do not include \`export default\`.
+                5.  The code must be fully functional and ready to be copy-pasted.
+                6.  For HTML & TailwindCSS, include the Tailwind CDN script. For HTML & CSS, embed the CSS in a <style> tag.
+                7.  **For ANY component that requires an image, YOU MUST use the placeholder URL: "https://picsum.photos/seed/compai/500/500" for the image source.**
             `;
 
             const result = await model.generateContent(prompt);
@@ -97,10 +100,8 @@ const Home = () => {
 
     return (
         <>
-            {/* --- FIXED: Main layout wrapper to prevent page scroll --- */}
             <div className='grid grid-cols-1 lg:grid-cols-2 gap-10 px-6 lg:px-16 py-5' style={{ height: 'calc(100vh - 20px)' }}>
-
-                {/* Left Panel: Input Form (no changes here) */}
+                {/* Left Panel: Input Form */}
                 <div className="w-full py-6 rounded-xl bg-[var(--color-base-200)] p-5 self-start overflow-y-auto">
                     <h3 className='text-[25px] font-semibold sp-text'>AI Component Generator</h3>
                     <p className='text-gray-400 mt-2 text-[16px]'>Describe your component and let AI code it for you.</p>
@@ -140,7 +141,6 @@ const Home = () => {
                 </div>
 
                 {/* Right Panel: Code Display */}
-                {/* --- FIXED: Added h-full and flex-col to ensure proper height containment --- */}
                 <div className="w-full py-6 rounded-xl bg-[var(--color-base-200)] p-5 flex flex-col h-full">
                     <div className="flex justify-between items-center mb-4 flex-shrink-0">
                         <h3 className='text-[20px] font-semibold sp-text'>Generated Code</h3>
@@ -158,7 +158,6 @@ const Home = () => {
                             </div>
                         )}
                     </div>
-                    {/* --- FIXED: flex-grow and min-h-0 are key to making the editor scroll internally --- */}
                     <div className='w-full border border-dashed border-gray-700 flex-grow bg-[var(--color-base-300)] rounded-lg overflow-hidden min-h-0'>
                         {isLoading ? (
                             <div className="flex flex-col items-center justify-center h-full text-gray-400">
