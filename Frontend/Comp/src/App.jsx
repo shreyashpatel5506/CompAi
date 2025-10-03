@@ -6,6 +6,7 @@ import Navbar from './Components/Navbar.jsx';
 import Home from './Components/Home';
 import './index.css';
 import './App.css';
+import About from './Components/About.jsx';
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
       <main className="pt-16">
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/about" element={<About />} />
         </Routes>
       </main>
     </>

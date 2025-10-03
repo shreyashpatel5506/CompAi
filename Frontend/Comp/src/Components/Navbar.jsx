@@ -31,12 +31,7 @@ const Navbar = () => {
                         >
                             <Info size={18} /> About
                         </Link>
-                        <Link
-                            to="/settings"
-                            className="flex items-center gap-2 text-gray-300 hover:text-white transition"
-                        >
-                            <Settings size={18} /> Settings
-                        </Link>
+
                     </nav>
 
 
